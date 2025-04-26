@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>AI and ML for Battery SOH and RUL</title>
+  <style>
+    :root {
+      --bg-color: #f0f4f8;
+      --text-color: #333;
+      --container-bg: #fff;
+      --highlight-color: #0077cc;
+      --box-shadow: rgba(0, 0, 0, 0.1);
+    }
+    body.dark {
+      --bg-color: #121212;
+      --text-color: #eee;
+      --container-bg: #1e1e1e;
+      --highlight-color: #4db8ff;
+      --box-shadow: rgba(255, 255, 255, 0.1);
+    }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      transition: background-color 0.3s, color 0.3s;
+    }
+    header {
+      background-color: var(--highlight-color);
+      padding: 10px 0;
+      color: #fff;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    nav {
+      text-align: center;
+      margin: 20px;
+    }
+    nav a {
+      text-decoration: none;
+      color: var(--highlight-color);
+      margin: 0 15px;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+    nav a:hover {
+      color: #005fa3;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 30px;
+      background: var(--container-bg);
+      border-radius: 12px;
+      box-shadow: 0 4px 10px var(--box-shadow);
+      display: flex;
+      flex-direction: row;
+      gap: 40px;
+      transition: background 0.3s;
+    }
+    .left-column, .right-column {
+      flex: 1;
+    }
+    .section-title {
+      text-align: center;
+      color: var(--highlight-color);
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+    .tech-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+    }
+    .tech-card {
+      background: var(--container-bg);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px var(--box-shadow);
+      transition: box-shadow 0.3s;
+    }
+    .tech-card:hover {
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    }
+    .tech-card h3 {
+      color: var(--highlight-color);
+      font-size: 1.5rem;
+    }
+    .tech-card p {
+      color: var(--text-color);
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+    .toggle-theme {
+      text-align: right;
+      margin-bottom: 20px;
+    }
+    .toggle-theme button {
+      background: none;
+      border: 2px solid var(--highlight-color);
+      padding: 5px 12px;
+      font-weight: bold;
+      border-radius: 20px;
+      cursor: pointer;
+      color: var(--highlight-color);
+      transition: background 0.3s;
+    }
+    .toggle-theme button:hover {
+      background: var(--highlight-color);
+      color: #fff;
+    }
+    .form-container {
+      padding: 20px;
+      background-color: var(--container-bg);
+      border-radius: 8px;
+      box-shadow: 0 4px 10px var(--box-shadow);
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    label {
+      font-weight: bold;
+    }
+    select, input[type="file"], input[type="submit"] {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+    input[type="submit"] {
+      background-color: var(--highlight-color);
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    input[type="submit"]:hover {
+      background-color: #005fa3;
+    }
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>AI & ML for Battery SOH and RUL</header>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/predict">Prediction</a>
+    <a href="/about">About</a>
+  </nav>
+  <div class="container">
+    <div class="left-column">
+      <div class="toggle-theme">
+        <button onclick="toggleTheme()">🌗 Toggle Dark Mode</button>
+      </div>
+      <h1 class="section-title">🔋 Welcome to the Battery Health Prediction Page</h1>
+      <h1 class="section-title"> Snehith,Swamy,Indra,Thirumalesh,khushal</h1>
+      <p>This platform uses AI and ML models to predict the State of Health (SOH) and Remaining Useful Life (RUL) of batteries.</p>
+      <div class="tech-section">
+        <div class="tech-card">
+          <h3>AI & ML Models</h3>
+          <p>We use advanced machine learning models like Transformer and LSTM-CNN to predict battery performance.</p>
+        </div>
+        <div class="tech-card">
+          <h3>State of Health (SOH)</h3>
+          <p>SOH indicates battery health relative to a new battery.</p>
+        </div>
+        <div class="tech-card">
+          <h3>Remaining Useful Life (RUL)</h3>
+          <p>RUL forecasts how long a battery can still operate effectively.</p>
+        </div>
+      </div>
+    </div>
+    <div class="right-column">
+      <div class="form-container">
+        <form method="POST" enctype="multipart/form-data" onsubmit="showSpinner()">
+          <label for="dataset">Select Dataset:</label>
+          <select name="dataset" id="dataset">
+            <option value="">-- Choose from data folder --</option>
+            <option value="B0005.mat">B0005.mat</option>
+            <option value="B0006.mat">B0006.mat</option>
+            <option value="B0007.mat">B0007.mat</option>
+            <option value="B0018.mat">B0018.mat</option>
+          </select>
+          <label for="uploaded_file">Or Upload Dataset (.mat):</label>
+          <input type="file" name="uploaded_file" id="uploaded_file">
+          <label for="model">Select Model:</label>
+          <select name="model" id="model">
+            <option value="Transformer">Transformer</option>
+            <option value="LSTM_CNN">LSTM + CNN</option>
+          </select>
+          <input type="submit" value="🔍 Predict">
+        </form>
+      </div>
+
+      {% if prediction %}
+      <div class="results">
+        <h2>✅ Prediction Completed!</h2>
+        <p><strong>Selected Dataset:</strong> {{ selected_file }}</p>
+        <p><strong>Model:</strong> {{ model_type }}</p>
+        <div class="metrics">
+          <p>📈 <strong>MAE:</strong> {{ metrics['MAE'] }}</p>
+          <p>📉 <strong>RMSE:</strong> {{ metrics['RMSE'] }}</p>
+          <p>📊 <strong>R²:</strong> {{ metrics['R2'] }}</p>
+        </div>
+        <div class="visuals">
+          <div class="visual-block"><h3>🔋 SOH Prediction Curve</h3><img src="{{ url_for('static', filename=soh_plot.split('static/')[1]) }}"></div>
+          <div class="visual-block"><h3>📉 RUL Prediction Curve</h3><img src="{{ url_for('static', filename=rul_plot.split('static/')[1]) }}"></div>
+          <div class="visual-block"><h3>📊 SOH Histogram</h3><img src="{{ url_for('static', filename=hist_plot.split('static/')[1]) }}"></div>
+          <div class="visual-block"><h3>🔥 SOH Difference Heatmap</h3><img src="{{ url_for('static', filename=heatmap_plot.split('static/')[1]) }}"></div>
+          <div class="visual-block"><h3>📋 Prediction Metrics Table</h3><img src="{{ url_for('static', filename=table_plot.split('static/')[1]) }}"></div>
+        </div>
+        <div class="my-4">
+          <h3>Battery Capacity Curve</h3>
+          {% if capacity_image %}<img src="{{ url_for('static', filename='plots/' + capacity_image) }}" class="img-fluid rounded shadow">{% endif %}
+        </div>
+        <div class="my-4">
+          <h3>SOH Prediction Table</h3>
+          {% if prediction_table %}
+          <div class="table-responsive">
+            <table class="table table-striped table-hover table-bordered">
+              <thead class="table-light">
+                <tr>
+                  <th>Cycle</th><th>Actual SOH (%)</th><th>Predicted SOH (%)</th><th>Error (%)</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in prediction_table %}
+                <tr>
+                  <td>{{ row['Cycle'] }}</td>
+                  <td>{{ row['Actual SOH'] }}</td>
+                  <td>{{ row['Predicted SOH'] }}</td>
+                  <td>{{ row['Error (%)'] }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+  <script>
+    function showSpinner() {
+      // Optionally add spinner here
+    }
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+    }
+  </script>
+</body>
+</html>

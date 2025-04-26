@@ -1,0 +1,10 @@
+streamlit
+flask
+flask-cors
+google-generativeai
+python-dotenv
+PyPDF2
+faiss-cpu
+langchain==0.1.14
+langchain-core==0.1.28
+langchain_google_genai==0.0.7

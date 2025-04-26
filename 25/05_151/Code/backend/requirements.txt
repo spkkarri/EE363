@@ -1,0 +1,28 @@
+Flask>=2.3.3
+flask-cors>=4.0.0
+requests>=2.31.0
+# Core server libraries
+
+Flask==2.3.3
+flask-cors==4.0.0
+flask-jwt-extended==4.6.0
+gunicorn==21.2.0
+requests==2.31.0
+
+# JWT and token handling
+PyJWT==2.8.0
+python-dateutil==2.8.2
+
+# LangChain and vector database
+langchain==0.1.14
+faiss-cpu==1.7.4
+sentence-transformers==2.2.2
+transformers==4.39.3
+torch==2.2.1
+numpy==1.24.4
+
+# Document loading and parsing
+PyPDF2==3.0.1
+
+# Optional utilities
+platformdirs==4.2.0  # Useful for file paths and platform-agnostic dirs

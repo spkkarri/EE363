@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Segmentation App</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <h1>✨ Image Segmentation</h1>
+            <p class="subtitle">Upload an image to see segmentation</p>
+        </header>
+
+        <main class="app-content">
+            <div class="upload-card" id="upload-area">
+                <input type="file" id="file-input" accept="image/*">
+                <div class="upload-content">
+                    <div class="upload-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                    </div>
+                    <h3>Drag & drop your image</h3>
+                    <p class="upload-hint">or click to browse files</p>
+                    <p class="file-types">Supports: JPG, PNG (Max 5MB)</p>
+                </div>
+            </div>
+
+            <div id="status" class="status-message"></div>
+
+            <div class="loading-indicator" id="loading">
+                <div class="spinner"></div>
+                <p>Analyzing your image...</p>
+            </div>
+
+            <div class="results-container" id="results-container">
+                <h2 class="results-title">Segmentation Results</h2>
+                <div class="results-grid">
+                    <div class="result-card">
+                        <h3>Original Image</h3>
+                        <div class="image-wrapper">
+                            <img id="original-img" src="" alt="Original Image" class="result-image">
+                        </div>
+                    </div>
+                    <div class="result-card">
+                        <h3>Segmented Mask</h3>
+                        <div class="image-wrapper">
+                            <img id="mask-img" src="" alt="Segmented Mask" class="result-image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="app-footer">
+            <p> • Processing time: <span id="processing-time"></span></p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

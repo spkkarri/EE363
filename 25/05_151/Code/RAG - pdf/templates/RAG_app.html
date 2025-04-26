@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RAG PDF Chatbot</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #0f172a;
+      margin: 0;
+      padding: 40px 20px;
+      color: white;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: #1e293b;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      color: #38bdf8;
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+    input[type="file"],
+    input[type="text"] {
+      width: 100%;
+      padding: 12px 16px;
+      margin-top: 10px;
+      border-radius: 10px;
+      border: none;
+      background-color: #334155;
+      color: white;
+    }
+
+    input[type="text"]::placeholder {
+      color: #94a3b8;
+    }
+
+    button {
+      background-color: #14b8a6;
+      color: white;
+      padding: 12px 20px;
+      margin-top: 20px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0d9488;
+    }
+
+    button.secondary {
+      background-color: #ef4444;
+    }
+
+    button.secondary:hover {
+      background-color: #dc2626;
+    }
+
+    #response {
+      margin-top: 30px;
+      background-color: #334155;
+      padding: 20px;
+      border-radius: 12px;
+      min-height: 60px;
+      white-space: pre-wrap;
+      font-size: 1rem;
+      color: #f8fafc;
+    }
+
+    .loader {
+      border: 5px solid #1e293b;
+      border-top: 5px solid #38bdf8;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+      display: none;
+      margin: 20px auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    hr {
+      border: 1px solid #475569;
+      margin: 30px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>📄 Chat with Your PDFs</h1>
+    <button class="secondary" onclick="window.location.href='//127.0.0.1:5173/'">🔗 RAG Chatbot</button>
+    <form id="upload-form">
+      <label for="pdf-upload">Upload PDF file(s):</label>
+      <input id="pdf-upload" type="file" name="pdfs" multiple accept=".pdf" />
+      <button type="submit">📤 Upload & Process</button>
+    </form>
+
+    <hr />
+
+    <label>Ask a question about your PDFs:</label>
+    <input type="text" id="question" placeholder="E.g., What is the main topic discussed?" />
+    <div style="display: flex; gap: 10px;">
+      <button onclick="askQuestion()">💬 Ask</button>
+    </div>
+
+    <div class="loader" id="loader"></div>
+    <div id="response"></div>
+  </div>
+
+  <script>
+    const loader = document.getElementById("loader");
+    const responseBox = document.getElementById("response");
+
+    document.getElementById("upload-form").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+      loader.style.display = "block";
+      responseBox.innerText = "";
+
+      try {
+        const response = await fetch("http://localhost:8501/api/upload_pdf", { // Updated port to 8501
+          method: "POST",
+          body: formData,
+        });
+
+        const data = await response.json();
+        loader.style.display = "none";
+        alert(data.message || data.error);
+      } catch (err) {
+        loader.style.display = "none";
+        alert("Upload failed.");
+      }
+    });
+
+    async function askQuestion() {
+      const question = document.getElementById("question").value;
+      if (!question) return alert("Please enter a question.");
+      
+      loader.style.display = "block";
+      responseBox.innerText = "";
+
+      try {
+        const response = await fetch("http://localhost:8501/api/query", { // Fixed double slash
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question }),
+        });
+
+        const data = await response.json();
+        loader.style.display = "none";
+        responseBox.innerText = data.answer || data.error;
+      } catch (err) {
+        loader.style.display = "none";
+        responseBox.innerText = "Something went wrong.";
+      }
+    }
+  </script>
+
+</body>
+</html>

@@ -18,13 +18,13 @@ This project uses  Vision Transformer (ViT) models to classify satellite images 
 
 ## How to Run
 
-This project contains 4 main Jupyter Notebook (`.ipynb`) files, developed and tested on Google Colab:
+This project contains 4 main Jupyter Notebook (`.py`) files, developed and tested on Google Colab:
 
 ### 🔹 Model Training
-1. **classificationofsatelliteimages.ipynb**  
+1. **classificationofsatelliteimages.py**  
    - Trains a Vision Transformer (ViT) model for multiclass classification of satellite images using the EuroSAT dataset.
 You can run this notebooks in Google Colab to train the models. Trained weights are saved as `vit_eurosat.pth`.
-2. **binarysegmentationofsatelliteimages.ipynb**  
+2. **binarysegmentationofsatelliteimages.py**  
    - Performs class-wise binary segmentation on satellite images using a segmentation model.
 You can run these notebooks in Google Colab to train the models.Datasets should be placed in drive and image and mask paths should be changed while training according to actual location. Trained weights are saved  in `binary_seg_models` folder.
 
@@ -32,10 +32,10 @@ You can run these notebooks in Google Colab to train the models.Datasets should 
 
 ### 🔹 User Interface (UI)
 
-3. **CSIUserInterface.ipynb**  
+3. **CSIUserInterface.py**  
    - Loads the trained classification model (`vit_eurosat.pth`) and allows the user to upload an image for land cover classification.
 
-4. **BSSIUserInterface.ipynb**  
+4. **BSSIUserInterface.py**  
    - Loads the trained classification models (`binary_seg_models`) and allows the user to upload an image for land cover classification.
 
 ---
