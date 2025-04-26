@@ -1,9 +1,8 @@
-<<<<<<< HEAD
 # %%
-from google.colab import drive
-drive.mount('/content/drive')
+#from google.colab import drive
+#drive.mount('/content/drive')
 
-!pip install gradio transformers --quiet
+#!pip install gradio transformers --quiet
 
 import os
 import torch
@@ -83,12 +82,12 @@ interface = gr.Interface(
 interface.launch()
 
 
-=======
+
 # %%
 from google.colab import drive
 drive.mount('/content/drive')
 
-!pip install gradio transformers --quiet
+#!pip install gradio transformers --quiet
 
 import os
 import torch
@@ -166,6 +165,4 @@ interface = gr.Interface(
 )
 
 interface.launch()
-
-
->>>>>>> 22dc819f6ec92a9a81e9b1b4b4c420395a65edc2
+# %%

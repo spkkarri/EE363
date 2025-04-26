@@ -1,16 +1,13 @@
-<<<<<<< HEAD
-# %%
-%env CUDA_LAUNCH_BLOCKING=1
 
 # %%
 # Mount Google Drive
 
 
-from google.colab import drive
-drive.mount('/content/drive')
+#from google.colab import drive
+#drive.mount('/content/drive')
 
 # Install necessary libraries
-!pip install timm albumentations segmentation-models-pytorch --quiet
+#!pip install timm albumentations segmentation-models-pytorch --quiet
 
 
 
@@ -347,7 +344,7 @@ results_df.to_csv("/content/drive/MyDrive/binary_seg_eval_results.csv", index=Fa
 
 
 
-=======
+
 # %%
 %env CUDA_LAUNCH_BLOCKING=1
 
@@ -355,11 +352,11 @@ results_df.to_csv("/content/drive/MyDrive/binary_seg_eval_results.csv", index=Fa
 # Mount Google Drive
 
 
-from google.colab import drive
-drive.mount('/content/drive')
+#from google.colab import drive
+#drive.mount('/content/drive') #this does not wokr in local folder
 
 # Install necessary libraries
-!pip install timm albumentations segmentation-models-pytorch --quiet
+#!pip install timm albumentations segmentation-models-pytorch --quiet
 
 
 
@@ -694,6 +691,7 @@ import pandas as pd
 results_df = pd.DataFrame(results, columns=["Class", "Dice Score", "IoU"])
 results_df.to_csv("/content/drive/MyDrive/binary_seg_eval_results.csv", index=False)
 
+# %%
 
 
->>>>>>> 22dc819f6ec92a9a81e9b1b4b4c420395a65edc2
+
