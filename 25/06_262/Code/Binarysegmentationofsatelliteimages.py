@@ -346,7 +346,7 @@ results_df.to_csv("/content/drive/MyDrive/binary_seg_eval_results.csv", index=Fa
 
 
 # %%
-%env CUDA_LAUNCH_BLOCKING=1
+# %env CUDA_LAUNCH_BLOCKING=1
 
 # %%
 # Mount Google Drive

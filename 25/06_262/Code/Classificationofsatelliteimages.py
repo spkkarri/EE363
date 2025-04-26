@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # %%
 from google.colab import drive
 drive.mount('/content/drive')
@@ -241,7 +241,3 @@ for i in range(5):
     with torch.no_grad():
         pred = model(img.unsqueeze(0).to(device)).argmax(1).item()
     imshow(img, train_dataset.classes[label], train_dataset.classes[pred])
-
-
-
->>>>>>> 22dc819f6ec92a9a81e9b1b4b4c420395a65edc2
