@@ -8,7 +8,7 @@ st.title("🔋 Battery SOH & RUL Prediction")
 uploaded_file = st.file_uploader("Upload a .mat battery dataset (optional)", type=["mat"])
 
 # OR select from existing datasets
-preloaded_datasets = ["B0005.mat", "B0006.mat", "B0007.mat", "B0008.mat"]
+preloaded_datasets = ["B0005.mat", "B0006.mat", "B0007.mat", "B0018.mat"]
 selected_dataset = st.selectbox("Or select from saved datasets:", preloaded_datasets)
 
 # Select Models
@@ -50,8 +50,12 @@ if st.button("🚀 Run Models"):
                 st.write("### 📄 Prediction Table")
                 st.dataframe(pd.DataFrame(output["df"]))
                 # Metrics
+                # Select only the MAE and RMSE metrics
+                selected_metrics = {k: output["metrics"][k] for k in ["MAE", "RMSE"] if k in output["metrics"]}
+
                 st.write("### 📈 Metrics")
-                st.json(output["metrics"])
+                st.json(selected_metrics)
+
 
                 # SOH Plot
                 st.write("### 🔋 SOH Plot")

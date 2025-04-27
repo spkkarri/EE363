@@ -109,21 +109,28 @@ cd EE363/25/08_209/code
 
 ### 2. Install dependencies
 
+Make sure you are in the EE363/25/08_209/code directory:
+
 ```bash
+cd EE363/25/08_209/code
 pip install -r requirements.txt
 ```
 
 ### 3. Run the backend (FastAPI)
 
+Ensure you are in the EE363/25/08_209/code directory:
+
 ```bash
+cd EE363/25/08_209/code
 uvicorn backend.app:app --reload
 ```
 
 ### 4. Run the frontend (Streamlit)
 
-Open a new terminal and run:
+Open a new terminal window, then navigate to the same directory before running Streamlit
 
 ```bash
+cd EE363/25/08_209/code
 streamlit run frontend/app.py
 ```
 
