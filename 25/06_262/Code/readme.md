@@ -40,12 +40,11 @@ You can run these notebooks in Google Colab to train the models.Datasets should 
 
 ---
 
-### 💻 How to Execute in Google Colab
-1. Open the notebook in Google Colab.
-2. For testing binary segmentation of satellite images upload trained models folder location in this manner ->"/content/drive/MyDrive/binary_seg_models"
-3. For testing classification of satellite images upload trained model location in this manner ->"/content/drive/MyDrive/vit_eurosat.pth"
-4. Run the cell to get interface to upload images.
-5. These steps are for testing both classification and binary segmentation.
+### 💻 How to Execute in Vs code
+1. For testing binary segmentation of satellite images upload trained models folder location in this manner ->"/content/drive/MyDrive/binary_seg_models"(Here add actual location)
+2. For testing classification of satellite images upload trained model location in this manner ->"/content/drive/MyDrive/vit_eurosat.pth"(Here add actual location)
+3. Run the cell to get interface to upload images.
+4. These steps are for testing both classification and binary segmentation.
 ---
 ## Drivelink for DeepGlobeLandCover dataset
 https://drive.google.com/drive/folders/1DtZD0Ttb6RnHKC-XYdqG0iUHkagLt3ns
