@@ -7,20 +7,21 @@ Original file is located at
     https://colab.research.google.com/drive/1no_G79UHkClnth5vvT_B3H3IIIwO0ALH
 """
 
-from google.colab import drive
-drive.mount('/content/drive')
+# from google.colab import drive
+# drive.mount('/content/drive')
 
-from google.colab import files
+# from google.colab import files
+
+# # Upload files
+# uploaded = files.upload()
+
+# from google.colab import files
 
 # Upload files
-uploaded = files.upload()
+# uploaded = files.upload()
 
-from google.colab import files
-
-# Upload files
-uploaded = files.upload()
-
-!pip install tensorflow matplotlib
+# !pip install tensorflow matplotlib
+!pip install -r requirement.txt
 
 import cv2
 import numpy as np
@@ -58,7 +59,7 @@ def create_patches(img, mask, patch_size=128):
             mask_patches.append(mask_patch)
     return np.array(img_patches), np.array(mask_patches)
 
-image_path = 'RA303APR2025043180010100063PSANSTUC00GTDF.jpg'  # Change as needed
+image_path = '/data/RA303APR2025043180010100063PSANSTUC00GTDF.jpg'  # Change as needed
 img = load_image(image_path)
 ndvi = pseudo_ndvi(img)
 mask = generate_vegetation_mask(ndvi)
@@ -136,7 +137,7 @@ def predict_image(img, model):
     return full_pred
 
 # Predict on another image
-test_img = load_image('RA302APR2025043166009600059PSANSTUC00GTDF.jpg')
+test_img = load_image('/data/RA302APR2025043166009600059PSANSTUC00GTDF.jpg')
 _ = predict_image(test_img, model)
 
 def evaluate_image(test_img_path, model):
@@ -193,7 +194,7 @@ def patchify(img, size):
     return patches
 
 # ------------------- Load All Images -------------------
-image_dir = '/content/'  # Update if needed
+image_dir = '/data/'  # Update if needed
 patch_size = 64
 img_patches, mask_patches = [], []
 
@@ -263,11 +264,11 @@ def predict_and_show(img_path):
     print(f"🟢 Accuracy: {acc*100:.2f}%")
 
 # ------------------- Loop through all images -------------------
-image_files = ['RA302APR2025043166009600059PSANSTUC00GTDF.jpg',
-               'RAF30DEC2021026278010300066SSANSTUC00GTDA.jpg',
-               'RA315MAR2025042910010200064PSANSTUC00GTDF.jpg',
-               'RA303APR2025043180010100064PSANSTUC00GTDF.jpg',
-               'RA303APR2025043180010100063PSANSTUC00GTDF.jpg']
+image_files = ['/data/RA302APR2025043166009600059PSANSTUC00GTDF.jpg',
+               '/data/RAF30DEC2021026278010300066SSANSTUC00GTDA.jpg',
+               '/data/RA315MAR2025042910010200064PSANSTUC00GTDF.jpg',
+               '/data/RA303APR2025043180010100064PSANSTUC00GTDF.jpg',
+               '/data/RA303APR2025043180010100063PSANSTUC00GTDF.jpg']
 
 for img_file in image_files:
     img_path = os.path.join(image_dir, img_file)
@@ -280,9 +281,7 @@ uploaded = files.upload()
 
 import os
 
-# List the files in the current directory
-uploaded_files = os.listdir('/content/')
-print(uploaded_files)
+
 
 import numpy as np
 import cv2
@@ -322,8 +321,8 @@ def patchify(img, size):
     return patches
 
 # ------------------- Load All Images -------------------
-image_dir = '/content/'  # Update if needed
-mask_dir = '/content/'   # Directory where the true masks are stored
+image_dir = '/data/'  # Update if needed
+mask_dir = '/data/cloud_masking/'   # Directory where the true masks are stored
 patch_size = 64
 img_patches, mask_patches = [], []
 
@@ -414,7 +413,7 @@ def predict_and_show(img_path):
     print(f"🟢 Accuracy: {acc*100:.2f}%")
 
 # Example:
-predict_and_show('/content/RA315MAR2025042910010200064PSANSTUC00GTDF.jpg')
+predict_and_show('/data/RA315MAR2025042910010200064PSANSTUC00GTDF.jpg')
 
 import numpy as np
 import cv2
@@ -478,12 +477,12 @@ def patchify(img, mask, size):
     return patches, mask_patches
 
 # ------------------- Load All Images -------------------
-image_dir = '/content/'  # Update if needed
+image_dir = '/data/'  # Update if needed
 patch_size = 64
 img_patches, mask_patches = [], []
 
 # Assuming true masks are uploaded in the same directory
-true_masks = ['Screenshot 2025-04-13 051830.png', 'Screenshot 2025-04-13 053052.png', 'Screenshot 2025-04-13 053034.png', 'Screenshot 2025-04-13 053042.png']  # Update accordingly
+true_masks = ['/data/Screenshot 2025-04-13 051830.png', '/data/Screenshot 2025-04-13 053052.png', '/data/Screenshot 2025-04-13 053034.png', '/data/Screenshot 2025-04-13 053042.png']  # Update accordingly
 
 # Process all images
 for fname in os.listdir(image_dir):
@@ -563,7 +562,7 @@ def predict_and_show(img_path):
     print(f"🟢 Accuracy: {acc*100:.2f}%")
 
 # Example:
-predict_and_show('/content/RA315MAR2025042910010200064PSANSTUC00GTDF.jpg')
+predict_and_show('/data/RA315MAR2025042910010200064PSANSTUC00GTDF.jpg')
 
 import numpy as np
 import cv2
@@ -627,14 +626,14 @@ def patchify(img, mask, size):
     return patches, mask_patches
 
 # ------------------- Load All Images -------------------
-image_dir = '/content/'  # Update if needed
-mask_dir = '/content/'   # Directory where the true masks are stored
+image_dir = '/data/'  # Update if needed
+mask_dir = '/data/cloud_masking/'   # Directory where the true masks are stored
 patch_size = 64
 img_patches, mask_patches = [], []
 
 # Assuming true masks are uploaded in the same directory
-true_masks = ['Screenshot 2025-04-13 051830.png', 'Screenshot 2025-04-13 053052.png',
-              'Screenshot 2025-04-13 053034.png', 'Screenshot 2025-04-13 053042.png']  # Update accordingly
+true_masks = ['/data/Screenshot 2025-04-13 051830.png', '/data/Screenshot 2025-04-13 053052.png',
+              '/data/Screenshot 2025-04-13 053034.png', '/data/Screenshot 2025-04-13 053042.png']  # Update accordingly
 
 # Process all images
 for fname in os.listdir(image_dir):
@@ -758,8 +757,8 @@ def save_mask_as_image(mask, output_path):
     cv2.imwrite(output_path, cv2.cvtColor(mask_rgb, cv2.COLOR_RGB2BGR))
 
 # Directory setup
-input_dir = '/content/'   # Update if needed
-output_dir = '/content/masks/'
+input_dir = '/data/'   # Update if needed
+output_dir = '/data/cloud_masking/'
 os.makedirs(output_dir, exist_ok=True)
 
 # Process all new forest images
@@ -832,7 +831,7 @@ def patchify(img, mask, size):
     return patches, mask_patches
 
 # ------------------- Load All Images -------------------
-image_dir = '/content/'  # Update if needed
+image_dir = '/data/'  # Update if needed
 patch_size = 64
 img_patches, mask_patches = [], []
 
@@ -951,7 +950,7 @@ def generate_mask(ndvi):
 
 # ------------------- Cloud Masking -------------------
 # Forest image filenames that should not undergo cloud masking
-forest_images = ['1.jpg', '5.jpg', '6.jpg', '7.jpg', '8.jpg', '9.jpg']
+forest_images = ['/data/Forest_5.jpg', '/data/Forest_6.jpg', '/data/Forest_7.jpg', '/data/Forest_8.jpg', '/data/Forest_9.jpg']
 
 def cloud_masking(img, threshold=0.35, img_name=None):
     """
@@ -995,14 +994,14 @@ def patchify(img, mask, size):
     return patches, mask_patches
 
 # ------------------- Load All Images -------------------
-image_dir = '/content/'  # Update if needed
-mask_dir = '/content/'   # Directory where the true masks are stored
+image_dir = '/data/'  # Update if needed
+mask_dir = '/data/cloud_masking/'   # Directory where the true masks are stored
 patch_size = 64
 img_patches, mask_patches = [], []
 
 # Assuming true masks are uploaded in the same directory
-true_masks = ['Screenshot 2025-04-13 051830.png', 'Screenshot 2025-04-13 053052.png',
-              'Screenshot 2025-04-13 053034.png', 'Screenshot 2025-04-13 053042.png']  # Update accordingly
+true_masks = ['/data/Screenshot 2025-04-13 051830.png', '/data/Screenshot 2025-04-13 053052.png',
+              '/data/Screenshot 2025-04-13 053034.png', '/data/Screenshot 2025-04-13 053042.png']  # Update accordingly
 
 # Process all images
 for fname in os.listdir(image_dir):
@@ -1117,7 +1116,7 @@ def generate_mask(ndvi):
 
 # ------------------- Cloud Masking -------------------
 # Forest image filenames that should not undergo cloud masking
-forest_images = ['1.jpg', '5.jpg', '6.jpg', '7.jpg', '8.jpg', '9.jpg']
+forest_images = ['/data/Forest_5.jpg', '/data/Forest_6.jpg', '/data/Forest_7.jpg', '/data/Forest_8.jpg', '/data/Forest_9.jpg']
 
 def cloud_masking(img, threshold=0.35, img_name=None):
     """
@@ -1161,14 +1160,14 @@ def patchify(img, mask, size):
     return patches, mask_patches
 
 # ------------------- Load All Images -------------------
-image_dir = '/content/'  # Update if needed
-mask_dir = '/content/'   # Directory where the true masks are stored
+image_dir = '/data/'  # Update if needed
+mask_dir = '/data/cloud_masking/'   # Directory where the true masks are stored
 patch_size = 64
 img_patches, mask_patches = [], []
 
 # Assuming true masks are uploaded in the same directory
-true_masks = ['Screenshot 2025-04-13 051830.png', 'Screenshot 2025-04-13 053052.png',
-              'Screenshot 2025-04-13 053034.png', 'Screenshot 2025-04-13 053042.png']  # Update accordingly
+true_masks = ['/data/Screenshot 2025-04-13 051830.png', '/data/Screenshot 2025-04-13 053052.png',
+              '/data/Screenshot 2025-04-13 053034.png', '/data/Screenshot 2025-04-13 053042.png']  # Update accordingly
 
 # Process all images
 for fname in os.listdir(image_dir):
@@ -1290,7 +1289,7 @@ def generate_mask(ndvi):
     return mask
 
 # ------------------- Cloud Masking -------------------
-forest_images = ['1.jpg', '5.jpg', '6.jpg', '7.jpg', '8.jpg', '9.jpg']
+forest_images = ['/data/Forest_5.jpg', '/data/Forest_6.jpg', '/data/Forest_7.jpg', '/data/Forest_8.jpg', '/data/Forest_9.jpg']
 
 def cloud_masking(img, threshold=0.35, img_name=None):
     if img_name in forest_images:
@@ -1323,14 +1322,14 @@ def patchify(img, mask, size):
     return patches, mask_patches
 
 # ------------------- Load All Images -------------------
-image_dir = '/content/'  # Update if needed
-mask_dir = '/content/'   # Directory where the true masks are stored
+image_dir = '/data/'  # Update if needed
+mask_dir = '/data/cloud_masking/'   # Directory where the true masks are stored
 patch_size = 64
 img_patches, mask_patches = [], []
 
 # Assuming true masks are uploaded in the same directory
-true_masks = ['Screenshot 2025-04-13 051830.png', 'Screenshot 2025-04-13 053052.png',
-              'Screenshot 2025-04-13 053034.png', 'Screenshot 2025-04-13 053042.png']  # Update accordingly
+true_masks = ['/data/Screenshot 2025-04-13 051830.png', '/data/Screenshot 2025-04-13 053052.png',
+              '/data/Screenshot 2025-04-13 053034.png', '/data/Screenshot 2025-04-13 053042.png']  # Update accordingly
 
 for fname in os.listdir(image_dir):
     if fname.endswith('.jpg'):
@@ -1493,7 +1492,7 @@ def generate_mask(ndvi):
 
 # ------------------- Cloud Masking -------------------
 # Forest image filenames that should not undergo cloud masking
-forest_images = ['1.jpg', '5.jpg', '6.jpg', '7.jpg', '8.jpg', '9.jpg']
+forest_images = ['/data/Forest_5.jpg', '/data/Forest_6.jpg', '/data/Forest_7.jpg', '/data/Forest_8.jpg', '/data/Forest_9.jpg']
 
 def cloud_masking(img, threshold=0.35, img_name=None):
     """
@@ -1537,14 +1536,14 @@ def patchify(img, mask, size):
     return patches, mask_patches
 
 # ------------------- Load All Images -------------------
-image_dir = '/content/'  # Update if needed
-mask_dir = '/content/'   # Directory where the true masks are stored
+image_dir = '/data/'  # Update if needed
+mask_dir = '/data/cloud_masking/'   # Directory where the true masks are stored
 patch_size = 64
 img_patches, mask_patches = [], []
 
 # Assuming true masks are uploaded in the same directory
-true_masks = ['Screenshot 2025-04-13 051830.png', 'Screenshot 2025-04-13 053052.png',
-              'Screenshot 2025-04-13 053034.png', 'Screenshot 2025-04-13 053042.png']  # Update accordingly
+true_masks = ['/data/Screenshot 2025-04-13 051830.png', '/data/Screenshot 2025-04-13 053052.png',
+              '/data/Screenshot 2025-04-13 053034.png', '/data/Screenshot 2025-04-13 053042.png']  # Update accordingly
 
 # Process all images
 for fname in os.listdir(image_dir):
