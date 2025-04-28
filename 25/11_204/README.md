@@ -86,10 +86,7 @@ or install all the files in same order
 enter the below bash command to fetch the data set
 ```bash
 
-.\download_google_drive_folder.ps1
-
-
-or ./download_data.sh
+sh download_data.sh
 
 
 
