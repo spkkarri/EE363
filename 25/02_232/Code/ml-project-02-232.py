@@ -1,22 +1,22 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
-
-
 import numpy as np
 import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
-
-
 import os
-for dirname, _, filenames in os.walk('/kaggle/input'):
-    for filename in filenames:
-        print(os.path.join(dirname, filename))
 
+# Get the directory of the current script
+script_dir = os.path.dirname(os.path.abspath(__file__))
+# Build the relative path to the dataset
+dataset_path = os.path.join(script_dir, "../data/downloaded_files/")
+
+# In[1]:
+# (No directory listing needed for local setup, keeping for reference)
+# for dirname, _, filenames in os.walk(dataset_path):
+#     for filename in filenames:
+#         print(os.path.join(dirname, filename))
 
 # In[2]:
-
-
 import pandas as pd
 import numpy as np
 import os
@@ -38,9 +38,9 @@ print("Class Dictionary:")
 print(class_dict)
 
 # Define dataset paths
-train_dir = '/kaggle/input/deepglobe-land-cover-classification-dataset/train'
-val_dir = '/kaggle/input/deepglobe-land-cover-classification-dataset/valid'
-test_dir = '/kaggle/input/deepglobe-land-cover-classification-dataset/test'
+train_dir = os.path.join(dataset_path, "train")
+val_dir = os.path.join(dataset_path, "valid")
+test_dir = os.path.join(dataset_path, "test")
 
 # Verify directories exist
 for directory in [train_dir, val_dir, test_dir]:
@@ -49,10 +49,7 @@ for directory in [train_dir, val_dir, test_dir]:
     else:
         print(f"Warning: {directory} does not exist")
 
-
 # In[3]:
-
-
 class DeepGlobeDataset(Dataset):
     def __init__(self, img_dir, is_train=True, transform=None, size=(256, 256)):
         self.img_dir = img_dir
@@ -123,10 +120,7 @@ class DeepGlobeDataset(Dataset):
             # For validation/test, return only the image
             return image, img_path
 
-
 # In[4]:
-
-
 # Create datasets
 train_dataset = DeepGlobeDataset(train_dir, is_train=True, size=(256, 256))
 val_dataset = DeepGlobeDataset(val_dir, is_train=False, size=(256, 256))
@@ -137,10 +131,7 @@ train_loader = DataLoader(train_dataset, batch_size=4, shuffle=True, num_workers
 val_loader = DataLoader(val_dataset, batch_size=4, shuffle=False, num_workers=2)
 test_loader = DataLoader(test_dataset, batch_size=4, shuffle=False, num_workers=2)
 
-
 # In[5]:
-
-
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -264,10 +255,7 @@ class LightAttentionUNet(nn.Module):
         
         return output
 
-
 # In[6]:
-
-
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -361,11 +349,7 @@ scheduler = optim.lr_scheduler.CosineAnnealingWarmRestarts(
 
 print("Improved loss function and optimizer defined successfully")
 
-
-
 # In[7]:
-
-
 import torch
 import time
 from tqdm.auto import tqdm
@@ -373,8 +357,6 @@ import copy
 import matplotlib.pyplot as plt
 
 def train_model(model, train_loader, criterion, optimizer, scheduler, num_epochs=10):
-    # Remove GradScaler to avoid warnings
-    
     # Track best model
     best_model_wts = copy.deepcopy(model.state_dict())
     best_loss = float('inf')
@@ -397,11 +379,11 @@ def train_model(model, train_loader, criterion, optimizer, scheduler, num_epochs
             # Zero gradients
             optimizer.zero_grad()
             
-            # Forward pass without mixed precision
+            # Forward pass
             outputs = model(inputs)
             loss = criterion(outputs, masks)
             
-            # Backward pass without scaling
+            # Backward pass
             loss.backward()
             optimizer.step()
             
@@ -427,7 +409,7 @@ def train_model(model, train_loader, criterion, optimizer, scheduler, num_epochs
                 'model_state_dict': model.state_dict(),
                 'optimizer_state_dict': optimizer.state_dict(),
                 'loss': best_loss,
-            }, 'best_model.pth')
+            }, os.path.join('outputs', 'best_model.pth'))
             print(f'Model saved! Loss improved to {best_loss:.4f}')
     
     time_elapsed = time.time() - start_time
@@ -456,14 +438,10 @@ plt.title('Learning Rate')
 plt.xlabel('Epoch')
 plt.ylabel('LR')
 plt.tight_layout()
-plt.savefig('training_history.png')
+plt.savefig(os.path.join('outputs', 'training_history.png'))
 plt.show()
 
-
-
 # In[8]:
-
-
 import torch
 import numpy as np
 import matplotlib.pyplot as plt
@@ -471,7 +449,7 @@ from PIL import Image
 import os
 
 # Load the best trained model
-model.load_state_dict(torch.load('best_model.pth')['model_state_dict'])
+model.load_state_dict(torch.load(os.path.join('outputs', 'best_model.pth'))['model_state_dict'])
 model.eval()  # Set to evaluation mode
 
 # Define visualization function
@@ -507,7 +485,7 @@ def visualize_prediction(model, dataset, idx, device, class_rgb_values):
     ax[1].axis('off')
     
     plt.tight_layout()
-    plt.savefig(f'prediction_{os.path.basename(img_path)}.png', dpi=300)
+    plt.savefig(os.path.join('outputs', f'prediction_{os.path.basename(img_path)}.png'), dpi=300)
     
     # Calculate land cover percentages
     class_names = ["Urban", "Agriculture", "Rangeland", "Forest", "Water", "Barren", "Unknown"]
@@ -575,7 +553,7 @@ def evaluate_model(model, val_loader, device, num_samples=5):
                 axes[ax_idx, 1].axis('off')
                 
     plt.tight_layout()
-    plt.savefig('validation_predictions.png', dpi=300)
+    plt.savefig(os.path.join('outputs', 'validation_predictions.png'), dpi=300)
     plt.show()
 
 # Create a confusion matrix Legend showing the color for each class
@@ -594,7 +572,7 @@ def create_class_legend():
     plt.xlim(0, len(class_names))
     plt.ylim(0, 1)
     plt.tight_layout()
-    plt.savefig('class_legend.png', dpi=300)
+    plt.savefig(os.path.join('outputs', 'class_legend.png'), dpi=300)
     plt.show()
 
 # Execute evaluation and visualization
@@ -614,6 +592,6 @@ create_class_legend()
 
 # Optional: Save the model in a deployable format (ONNX)
 dummy_input = torch.randn(1, 3, 256, 256, device=device)
-torch.onnx.export(model, dummy_input, "vegetation_segmentation_model.onnx", 
+torch.onnx.export(model, dummy_input, os.path.join('outputs', 'vegetation_segmentation_model.onnx'), 
                  verbose=True, input_names=['input'], output_names=['output'])
 print("Model exported to ONNX format for deployment")
